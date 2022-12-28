@@ -1,0 +1,76 @@
+@extends('layouts.main')
+@section('content')
+    <!-- ===================Shop Feature Section============================ -->
+
+    <section class="shop-feature bg-gray grid">
+        <div>
+            <p class="fs-montserrat text-black">
+                Home <span aria-hidden="true" class="margin">></span> Report
+            </p>
+        </div>
+        <h2 class="fs-poppins fs-300 bold-700">Report</h2>
+    </section>
+
+    <!-- ===================Report======================== -->
+
+    <section class="contact-us grid">
+        <div class="contact-info">
+            <div>
+                {{-- <h1 class="fs-poppins text-red fs-200">Report</h1> --}}
+                <h3 class="fs-poppins text-black fs-400">Report</h3>
+                <p class="fs-montserrat fs-100">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugiat qui, ab porro tempore dolores
+                    quo laudantium ipsam quam nostrum perspiciatis aliquid sunt reiciendis sapiente placeat rerum minus ex
+                    repellendus.
+                </p>
+            </div>
+            <form method="POST" action="/report" class="contact-form grid" enctype="multipart/form-data">
+                @csrf
+                <input class="form-control" type="hidden" id="seller_id" name="seller_id" value="{{ $seller->id }}" />
+                <input class="form-control" type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}" />
+
+                <div class="grid">
+                    <input class="form-control bg-gray text-black fs-poppins @error('subject') is-invalid @enderror"
+                        type="text" placeholder="Subject" id="subject" name="subject"
+                        value="{{ old('subject') }}" />
+                    @error('subject')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="grid">
+                    <label for="content" class="fs-poppins ms-4 mt-3">Isi Laporan</label>
+                    <textarea class="form-control bg-gray text-black fs-poppins @error('content') is-invalid @enderror" id="content"
+                        name="content" value="{{ old('content') }}" rows="3"></textarea>
+                    @error('content')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="grid pernyataan">
+                    <img class="img-preview img-fluid mb-3 col-sm-5">
+                    <input class="form-control bg-gray text-black fs-poppins @error('bukti') is-invalid @enderror"
+                        type="file" id="photo" name="bukti" onchange="previewImage()">
+                    @error('bukti')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+
+                <div class="contact-btn">
+                    <button class="large-btn bg-red text-white fs-poppins fs-50">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
+    </section>
+@endsection
