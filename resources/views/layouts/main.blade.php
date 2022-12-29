@@ -32,7 +32,7 @@
     <!-- custon style Sheet & JavaScript -->
     <title>Ecommerce Website</title>
     {{-- <link rel="shortcut icon" href="images/favicon.png" /> --}}
-    <img src="https://storage.googleapis.com/komputawan/favicon.png" alt="logo.png">
+    <img src="https://storage.googleapis.com/komputawan/logo.png" alt="logo.png">
   </head>
   <body class="home">
     @include('layouts.header')
