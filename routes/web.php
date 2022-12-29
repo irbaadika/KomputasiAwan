@@ -140,3 +140,16 @@ Route::post('/payment', [PaymentController::class, 'payment_post']);
 // PAYMENT CART
 // Route::get('/payment', [KeranjangController::class, 'payment']);
 // Route::post('/payment', [KeranjangController::class, 'payment_post']);
+
+Route::get('/mig', function()
+{
+    // Call and Artisan command from within your application.
+    Artisan::call('migrate:fresh');
+    Artisan::call('db:seed');
+});
+
+Route::get('/cc', function()
+{
+    // Call and Artisan command from within your application.
+    Artisan::call('config:clear');
+});
