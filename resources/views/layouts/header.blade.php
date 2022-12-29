@@ -10,7 +10,7 @@
 <header class="primary-header container flex">
   <div class="header-inner-one flex">
     <div class="logo">
-      <img src="{{ asset('image/logo.png') }}" alt="" />
+      <img src="https://storage.googleapis.com/komputawan/logo.png" alt="logo.png">
     </div>
     <button
       class="mobile-close-btn"
