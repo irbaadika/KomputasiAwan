@@ -156,12 +156,62 @@ class SellerProductController extends Controller
         $product->deskripsi = $request->get('deskripsi');
         $product->harga = $request->get('harga');
 
-        if($request->file('photo')){
-            if($request->oldPhoto){
-                Storage::delete($request->oldPhoto);
-            }
+        if ($request->file('photo')) {
+            if ($request->oldPhoto) {
+                // Storage::delete($request->oldPhoto);
+                $storage = new StorageClient([
+                'keyFilePath' => public_path('key.json')
+                ]);
+
+                $bucketName = env('GOOGLE_CLOUD_STORAGE_BUCKET');
+                $bucket = $storage->bucket($bucketName);
+                $object = $bucket->object($request->oldPhoto);
+
+                $object->delete();
+                    
+                }
             $product->photo = $request->file('photo')->store('product-img');
+            // $validatedData['photo'] = $request->file('photo')->store('product-img');
+            $googleConfigFile = file_get_contents(config_path('key.json'));
+                $storage = new StorageClient([
+                        'keyFile' => json_decode($googleConfigFile, true)
+                ]);
+                $storageBucketName = config('googlecloud.storage_bucket');
+                $bucket = $storage->bucket($storageBucketName);
+
+                 //get filename with extension
+                $filenamewithextension = pathinfo($request->file('photo')->getClientOriginalName(), PATHINFO_FILENAME);
+                // $filenamewithextension = $request->file('photo')->getClientOriginalName();
+
+                //get filename without extension
+                $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+                //get file extension
+                $extension = $request->file('photo')->getClientOriginalExtension();
+
+                //filename to store
+                $filenametostore = $filename . '_' . uniqid() . '.' . $extension;
+
+                Storage::put('public/product-img/' . $filenametostore, fopen($request->file('photo'), 'r+'));
+
+                $filepath = storage_path('app/public/product-img/' . $filenametostore);
+                $product->photo = $filenametostore;
+                $object = $bucket->upload(
+                    fopen($filepath, 'r'),
+                    [
+                        'predefinedAcl' => 'publicRead',
+                        'name' => $product->photo
+                    ]
+                );
+
         }
+
+        // if($request->file('photo')){
+        //     if($request->oldPhoto){
+        //         Storage::delete($request->oldPhoto);
+        //     }
+        //     $product->photo = $request->file('photo')->store('product-img');
+        // }
         
         $product->save();
 
@@ -177,9 +227,17 @@ class SellerProductController extends Controller
     public function destroy($id)
     {
         $product = Product::where('id', $id)->first();
-        if($product->photo){
-            Storage::delete($product->photo);
-        }
+        if ($product->photo) {
+            $storage = new StorageClient([
+            'keyFilePath' => public_path('key.json')
+            ]);
+
+            $bucketName = env('GOOGLE_CLOUD_STORAGE_BUCKET');
+            $bucket = $storage->bucket($bucketName);
+            $object = $bucket->object($product->photo);
+
+            $object->delete();
+            }
         $product->delete();
         return redirect('/sellerProduct')->with('success', 'Product telah dihapus');
     }

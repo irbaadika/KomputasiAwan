@@ -72,7 +72,7 @@
             <label for="photo" class="form-label @error('photo') is-invalid @enderror">Photo Admin</label>
             <input type="hidden" name="oldPhoto" value="{{ $product->photo }}">
             @if ($product->photo)
-            <img src="{{ asset('storage/' . $product->photo) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
+            <img src="{{ asset('https://storage.googleapis.com/komputawan/' . $product->photo) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
             @else
             <img class="img-preview img-fluid mb-3 col-sm-5">
             @endif
