@@ -8,6 +8,7 @@ use App\Models\Merk;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Google\Cloud\Storage\StorageClient;
 
 class SellerProductController extends Controller
 {
@@ -59,17 +60,49 @@ class SellerProductController extends Controller
             'harga' => 'required|numeric',
             'stok' => 'required|numeric',
             'photo' => 'image|file|max:2048'
-            
+
         ]);
 
-        if($request->file('photo')){
-            $validatedData['photo'] = $request->file('photo')->store('product-img');
+        if ($request->file('photo')) {
+            // $validatedData['photo'] = $request->file('photo')->store('product-img');
+            $googleConfigFile = file_get_contents(config_path('key.json'));
+            $storage = new StorageClient([
+                'keyFile' => json_decode($googleConfigFile, true)
+            ]);
+            $storageBucketName = config('googlecloud.storage_bucket');
+            $bucket = $storage->bucket($storageBucketName);
+
+            //get filename with extension
+            $filenamewithextension = pathinfo($request->file('photo')->getClientOriginalName(), PATHINFO_FILENAME);
+            // $filenamewithextension = $request->file('photo')->getClientOriginalName();
+
+            //get filename without extension
+            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+            //get file extension
+            $extension = $request->file('photo')->getClientOriginalExtension();
+
+            //filename to store
+            $filenametostore = $filename . '_' . uniqid() . '.' . $extension;
+
+            Storage::put('product-img/' . $filenametostore, fopen($request->file('photo'), 'r+'));
+
+            $filepath = storage_path('app/public/product-img/' . $filenametostore);
+            $validatedData['photo'] = 'product-img/' . $filenametostore;
+            $object = $bucket->upload(
+                fopen($filepath, 'r'),
+                [
+                    'predefinedAcl' => 'publicRead',
+                    // 'name' => $validatedData['photo']
+                ]
+            );
         }
-        
+
         Product::create($validatedData);
-        
+
         return redirect('/sellerProduct')->with('successAdd', 'Product baru telah ditambahkan');
     }
+
 
     /**
      * Display the specified resource.
