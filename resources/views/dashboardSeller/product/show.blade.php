@@ -8,7 +8,7 @@
             @if ($product->photo == null)
                 
             @else
-                <img src="{{ asset('storage/' . $product->photo ) }}" class="card-img-top" alt="{{ $product->type }}">
+                <img src="{{ asset('https://storage.googleapis.com/komputawan/' . $product->photo ) }}" class="card-img-top" alt="{{ $product->type }}">
             @endif
             
             <div class="card-header ">

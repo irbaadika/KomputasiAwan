@@ -87,7 +87,7 @@
 
                         <tr>
                             <td>
-                                <a href="/product/{{ $k->product->id }}"> <img src="{{ asset('storage/' . $k->product->photo) }}" alt="" style="height: 200px; "></a>
+                                <a href="/product/{{ $k->product->id }}"> <img src="{{ asset('https://storage.googleapis.com/komputawan/' . $k->product->photo) }}" alt="" style="height: 200px; "></a>
                             </td>
                             <td>{{ $k->product->type }}</td>
                             <td>{{ currency_IDR($k->product->harga) }}</td>

@@ -21,7 +21,7 @@
       <input type="hidden" class="form-control" id="product_id" name="product_id" value="{{ $product->id }}">
       <input type="hidden" class="form-control" id="harga" name="harga" value="{{ $product->harga }}">
       <div>
-        <img src="{{ asset('storage/' . $product->photo) }}" alt="" />
+        <img src="{{ asset('https://storage.googleapis.com/komputawan/' . $product->photo) }}" alt="" />
       </div>
       <div class="product-info grid">
         <h4 class="fs-poppins">{{ $product->merk->name }}</h4>

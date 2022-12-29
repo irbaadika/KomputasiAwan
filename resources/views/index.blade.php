@@ -212,7 +212,7 @@
 <section class="best-Seller">
   @foreach ($product as $p)
   <div class="product grid">
-    <img src="{{ asset('storage/' . $p->photo) }}" alt="" />
+    <img src="{{ asset('https://storage.googleapis.com/komputawan/' . $p->photo) }}" alt="" />
     <p class="fs-poppins bold-500">{{ $p->type }}</p>
     <p class="fs-poppins bold-500">{{ currency_IDR($p->harga) }}</p>
 

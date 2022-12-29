@@ -35,7 +35,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="card">
                         <div style="max-height: 500px; overflow:hidden">
-                            <img src="{{ asset('storage/' . $p->photo) }}" class="card-img-top" alt="{{ $p->type }}">
+                            <img src="{{ asset('https://storage.googleapis.com/komputawan/' . $p->photo) }}" class="card-img-top" alt="{{ $p->type }}">
                         </div>
                         <div class="card-body">
                         <h5 class="card-title">{{ $p->type }}</h5>

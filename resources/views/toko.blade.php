@@ -35,7 +35,7 @@
         <section class="shop-product grid">
             @foreach ($product as $p)
             <div class="product-list grid">
-                <img src="{{ asset('storage/' . $p->photo) }}" alt="{{ $p->type }}" />
+                <img src="{{ asset('https://storage.googleapis.com/komputawan/' . $p->photo) }}" alt="{{ $p->type }}" />
                 <p class="fs-montserrat bold-600">{{ $p->type }}</p>
                 <div class="shop-btn flex">
                   <a href="/product/" class="btn btn-danger bg-red text-white fs-montserrat">Add To Cart</a>
