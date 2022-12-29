@@ -85,7 +85,7 @@ class SellerProductController extends Controller
             //filename to store
             $filenametostore = $filename . '_' . uniqid() . '.' . $extension;
 
-            Storage::put('product-img/' . $filenametostore, fopen($request->file('photo'), 'r+'));
+            Storage::put('public/product-img/' . $filenametostore, fopen($request->file('photo'), 'r+'));
 
             $filepath = storage_path('app/public/product-img/' . $filenametostore);
             $validatedData['photo'] = 'product-img/' . $filenametostore;
