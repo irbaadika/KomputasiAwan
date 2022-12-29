@@ -88,7 +88,7 @@ class SellerProductController extends Controller
             Storage::put('public/product-img/' . $filenametostore, fopen($request->file('photo'), 'r+'));
 
             $filepath = storage_path('app/public/product-img/' . $filenametostore);
-            $validatedData['photo'] = 'product-img/' . $filenametostore;
+            $validatedData['photo'] = $filenametostore;
             $object = $bucket->upload(
                 fopen($filepath, 'r'),
                 [
